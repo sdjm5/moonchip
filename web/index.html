@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>moonchip — MoonBit wasm CHIP-8 模拟器</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <span class="logo"></span>
+    <h1>moonchip</h1>
+    <span class="tagline">CHIP-8 虚拟机 · MoonBit → WebAssembly · 60 Hz</span>
+  </div>
+  <div class="header-right">
+    <span id="rom-badge" class="badge">未插入卡带</span>
+    <span id="state-badge" class="badge">READY</span>
+  </div>
+</header>
+
+<main>
+  <section class="layout">
+    <div class="console">
+      <div class="screen-frame">
+        <canvas id="screen" width="640" height="320"></canvas>
+      </div>
+      <div class="console-bar">
+        <span class="hint">键盘映射（标准 COSMAC 布局）</span>
+        <div id="keypad"></div>
+      </div>
+    </div>
+
+    <aside class="side">
+      <div class="panel">
+        <h2>卡带库</h2>
+        <h3>验证套件 <span class="by">Timendus (MIT)</span></h3>
+        <div class="roms" id="roms-test"></div>
+        <h3>经典游戏 <span class="by">公版收藏 (kripod/chip8-roms)</span></h3>
+        <div class="roms" id="roms-game"></div>
+      </div>
+
+      <div class="panel">
+        <h2>控制台</h2>
+        <label class="ctl">速度 <input type="range" id="s-speed" min="3" max="40" value="11"><span id="v-speed">11 inst/帧</span></label>
+        <label class="ctl chk"><input type="checkbox" id="sound-chk" checked> 蜂鸣器</label>
+        <div class="btn-row">
+          <button id="pause-btn">⏸ 暂停</button>
+          <button id="step-btn">⏭ 单步</button>
+          <button id="reset-btn">↺ 复位</button>
+        </div>
+        <details class="quirks">
+          <summary>怪癖开关（COSMAC VIP ↔ 现代）</summary>
+          <label class="ctl chk"><input type="checkbox" id="q-vf" checked> 8XY1/2/3 清 VF</label>
+          <label class="ctl chk"><input type="checkbox" id="q-mem"> FX55/FX65 递增 I</label>
+          <label class="ctl chk"><input type="checkbox" id="q-shift" checked> 8XY6/E 移位用 VY</label>
+          <label class="ctl chk"><input type="checkbox" id="q-clip" checked> 精灵边缘裁剪</label>
+        </details>
+      </div>
+
+      <div class="panel">
+        <h2>CPU 状态</h2>
+        <pre id="debug-out">pc=0000 i=0000 sp=0 dt=0 st=0
+v0=00 v1=00 v2=00 v3=00 v4=00 v5=00 v6=00 v7=00
+v8=00 v9=00 va=00 vb=00 vc=00 vd=00 ve=00 vf=00</pre>
+      </div>
+    </aside>
+  </section>
+
+  <footer>
+    <span>取指 / 译码 / 执行、显示、定时器全部由 MoonBit 编译为 wasm；通过 Timendus 测试套件可视化验证 ·
+      <a href="https://github.com/sdjm5/moonchip" target="_blank" rel="noreferrer">github.com/sdjm5/moonchip</a></span>
+  </footer>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>
